@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Form,HTTPException,status
 from typing import Annotated
 from pydantic import EmailStr
-from db import adverts_collection
+from db import users_collection
 import bcrypt 
 import jwt 
 import os
@@ -30,13 +30,13 @@ def register_user(
 
 ):
     # Ensure user does not exist
-    user_count = adverts_collection.count_documents(filter={"email": email})
+    user_count = users_collection.count_documents(filter={"email": email})
     if user_count > 0:
         raise HTTPException(status.HTTP_409_CONFLICT,"user already exist!")
     # hash your password
     hasded_password = bcrypt.hashpw(password.encode,bcrypt.gensalt())
     # save user into the database
-    adverts_collection.insert_one(
+    users_collection.insert_one(
         {"username": username,
          "email": email,
          "password": hasded_password,
@@ -52,7 +52,7 @@ def login_user(
     password: Annotated[str, Form(min_length=8)]
 ):
     # Ensure user exist
-    user = adverts_collection.find_one(filter={"email": email})
+    user = users_collection.find_one(filter={"email": email})
     if not user: 
         raise HTTPException(status.HTTP_404_NOT_FOUND, "user does not exist!")
     # compare their password
