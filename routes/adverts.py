@@ -72,7 +72,7 @@ def post_advert(
         # generate AI image
         response = genai_client.models.generate_images(model="imagen-4.0-generate-001",
             prompt=title,
-            config=types.GenerateImagesConfig(number_0f_images=1),
+            config=types.GenerateImagesConfig(number_of_images=1),
         )
         image = response.generated_images[0].image.image_bytes
     # Ensure an advert with title and user_id combined does not exist
@@ -130,7 +130,7 @@ def replace_advert(
         response = genai_client.models.generate_images(
             model="imagen-4.0-generate-001",
             prompt=title,
-            config=types.GenerateImagesConfig(number_0f_images=1),
+            config=types.GenerateImagesConfig(number_of_images=1),
         )
         image = response.generated_images[0].image.image_bytes
     

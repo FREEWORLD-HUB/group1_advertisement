@@ -6,13 +6,13 @@ from routes.genai import genai_router
 import os
 from dotenv import load_dotenv
 
-load_dotenv
+load_dotenv()
 
 # configuring cloudinary
 cloudinary.config(
-    cloud_name=os.getenv("dhqwkwo8e"),
-    api_key=os.getenv("544878511352217"),
-    api_secret=os.getenv("DB2whHclPE2tpDECsKPQNRq7G0Y")
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
 )
 
 app = FastAPI(title= "kol kit Advertisement app", version= "1.0.0")

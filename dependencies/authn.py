@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 import jwt
-from db import adverts_collection
+from db import users_collection
 from utils import replace_mongo_id
 from bson.objectid import ObjectId
 
@@ -24,7 +24,8 @@ def is_authenticated(
 
 
 def authenticated_user(user_id: Annotated[str, Depends(is_authenticated)]):
-    user = adverts_collection.find_one(filter={"_id": ObjectId(user_id)})
+    print(user_id)
+    user = users_collection.find_one(filter={"_id": ObjectId(user_id)})
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
