@@ -34,7 +34,7 @@ def register_user(
     if user_count > 0:
         raise HTTPException(status.HTTP_409_CONFLICT,"user already exist!")
     # hash your password
-    hasded_password = bcrypt.hashpw(password.encode,bcrypt.gensalt())
+    hasded_password = bcrypt.hashpw(password.encode("utf-8"),bcrypt.gensalt())
     # save user into the database
     users_collection.insert_one(
         {"username": username,
@@ -56,13 +56,13 @@ def login_user(
     if not user: 
         raise HTTPException(status.HTTP_404_NOT_FOUND, "user does not exist!")
     # compare their password
-    correct_password = bcrypt.checkpw(password.encode(), user["password"])
+    correct_password = bcrypt.checkpw(password.encode("utf-8"), user["password"])
     if not correct_password:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid credentials!")
     # Generate an acces token for the user
     encoded_jwt = jwt.encode(
         {"id": str (user["_id"]),
-         "exp": datetime.now(tz=timezone.utc) + timedelta(seconds=3000)
+         "exp": datetime.now(tz=timezone.utc) + timedelta(minutes=30),
          }, os.getenv("JWT_SECRET_KEY"),
          "HS256")
     # Return response

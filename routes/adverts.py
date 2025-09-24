@@ -61,7 +61,7 @@ def get_similar_adverts(advert_id,limit=10,skip=0):
     return {"data": list(map(replace_mongo_id, advert))}
     
 
-@adverts_router.post("/adverts",dependencies=[Depends(has_roles(["host", "admin"]))])
+@adverts_router.post("/adverts",dependencies=[Depends(has_roles(["vendor", "admin"]))])
 def post_advert(
     title: Annotated[str, Form()],
     description: Annotated[str, Form()],
@@ -154,7 +154,7 @@ def replace_advert(
 @adverts_router.delete("/adverts/{advert_id}")
 def delete_advert(advert_id, user_id: Annotated[str, Depends(is_authenticated)]):
     # check if event_id is valid mongo id
-    if not ObjectId.is_valid(event_id):
+    if not ObjectId.is_valid(advert_id):
         raise HTTPException(
             status.HTTP_422_UNPROCESSABLE_CONTENT, detail="Invalid mongo id received"
         )

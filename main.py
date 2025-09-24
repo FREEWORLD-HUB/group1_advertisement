@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import cloudinary
 from routes.adverts import adverts_router
 from routes.users import users_router
+from routes.genai import genai_router
 import os
 from dotenv import load_dotenv
 
@@ -14,7 +15,7 @@ cloudinary.config(
     api_secret=os.getenv("DB2whHclPE2tpDECsKPQNRq7G0Y")
 )
 
-app = FastAPI(title= "kool kit Advertisement app", version= "1.0.0")
+app = FastAPI(title= "kol kit Advertisement app", version= "1.0.0")
 
 @app.get("/")
 def get_home():
@@ -23,3 +24,4 @@ def get_home():
 # include the adverts router
 app.include_router (adverts_router)
 app.include_router(users_router)
+app.include_router(genai_router)
