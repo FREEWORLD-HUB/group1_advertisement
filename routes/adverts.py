@@ -64,7 +64,10 @@ def get_similar_adverts(advert_id,limit=10,skip=0):
 @adverts_router.post("/adverts",dependencies=[Depends(has_roles(["vendor", "admin"]))])
 def post_advert(
     title: Annotated[str, Form()],
+    company: Annotated[str, Form()],
     description: Annotated[str, Form()],
+    price: Annotated[str, Form()],
+    job_type: Annotated[str, Form()],
     user_id: Annotated[str, Depends(is_authenticated)],
     image: Annotated[str, File ()] = None,
 ):
@@ -90,9 +93,12 @@ def post_advert(
     # insert the event into the database
     adverts_collection.insert_one(
        { "title": title,
+        "company": company,
+        "price": price,
         "description": description,
-        "image_url":upload_result.get("secure_url"),
-        "owner": user_id
+        "job_type": job_type,
+        "image":upload_result["secure_url"],
+        "owner": user_id,
        }
     )
     # adverts_collection.insert_one(event.model_dump())
