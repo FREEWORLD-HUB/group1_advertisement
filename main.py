@@ -19,7 +19,7 @@ app = FastAPI(title= "kol kit Advertisement app", version= "1.0.0")
 
 @app.get("/")
 def get_home():
-    return{"message": "Welcome to the Advertisement API"}
+    return{"message": "Welcome to the kol-kit Advertisement API"}
 
 # include the adverts router
 app.include_router (adverts_router)
