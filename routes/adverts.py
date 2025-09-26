@@ -16,7 +16,7 @@ adverts_router = APIRouter()
 
 # Adverts endpoints
 @adverts_router.get("/adverts")
-def get_adverts(title="", description="", limit=10, skip=0):
+def get_adverts(title="", description="", limit=50, skip=0):
     # get all adverts from the database
     adverts = adverts_collection.find(
         filter={
